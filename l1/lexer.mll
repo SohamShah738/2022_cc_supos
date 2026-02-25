@@ -21,13 +21,21 @@ let int_reg_exp = ['0'-'9']+
 	  | [' ' '\t']     { token lexbuf }     (* skip blanks *)
 	  | '+'            { ADD }
 	  | '-'            { SUB }
-	  | '*'            { MUL }
-	  | '/'            { DIV }
+	  | ">="		   { GEQ }
 	  | '('            { LPAREN }
 	  | ')'            { RPAREN }
 	  | ';'	           { SEMICOLON }
+	  | ":="		   { ASSIGN }
+	  | "true" 		   { TRUE }
+	  | "false"    	   { FALSE }
+	  | "if" 		   { IF }
+	  | "then" 		   { THEN } 
+	  | "else" 	  	   { ELSE }
 	  | "begin"        { BEGIN }
 	  | "end"          { END }
+	  | "skip" 	 	   { SKIP }
+	  | "while" 	   { WHILE }
+	  | "do"		   { DO }
 	  | eof            { EOF }  
 	  | int_reg_exp { INT (int_of_string (Lexing.lexeme lexbuf)) }
 	  | "(*" { comment lexbuf; token lexbuf }

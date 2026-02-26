@@ -22,8 +22,6 @@ let int_reg_exp = ['0'-'9']+
 	  | '+'            { ADD }
 	  | '-'            { SUB }
 	  | ">="		   { GEQ }
-	  | '('            { LPAREN }
-	  | ')'            { RPAREN }
 	  | ';'	           { SEMICOLON }
 	  | ":="		   { ASSIGN }
 	  | "!" 	 	   { BANG }
@@ -32,8 +30,6 @@ let int_reg_exp = ['0'-'9']+
 	  | "if" 		   { IF }
 	  | "then" 		   { THEN } 
 	  | "else" 	  	   { ELSE }
-	  | "begin"        { BEGIN }
-	  | "end"          { END }
 	  | "skip" 	 	   { SKIP }
 	  | "while" 	   { WHILE }
 	  | "do"		   { DO }

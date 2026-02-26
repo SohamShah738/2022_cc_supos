@@ -6,13 +6,18 @@ let get_loc = Parsing.symbol_start_pos
 
 %}
 
+%token <string> LOC
 %token <int> INT
-%token ADD SUB MUL DIV SEMICOLON
+%token ADD SUB GEQ SEMICOLON
 %token LPAREN RPAREN
-%token BEGIN END
-%token EOF
+%token BEGIN END IF THEN ELSE SKIP WHILE DO DONE
+%token TRUE FALSE
+%token EOF ASSIGN BANG
+
 %left ADD SUB        /* lowest precedence */
-%left MUL DIV         /* medium precedence */
+%left GEQ      /* medium precedence */
+%left ASSIGN
+
 %nonassoc UMINUS        /* highest precedence */
 
 

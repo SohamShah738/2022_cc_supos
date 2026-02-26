@@ -14,7 +14,7 @@ let next_line lexbuf =
 }
 
 let newline = ('\010' | "\013\010" )
-let ident_reg_exp = ['A'-'Z' 'a'-'z']+ ['0'-'9' 'A'-'Z' 'a'-'z' '_' '\'']* 
+let loc_reg_exp = 'l'['0'-'9']+
 let int_reg_exp = ['0'-'9']+
 
 	rule token = parse
@@ -26,6 +26,7 @@ let int_reg_exp = ['0'-'9']+
 	  | ')'            { RPAREN }
 	  | ';'	           { SEMICOLON }
 	  | ":="		   { ASSIGN }
+	  | "!" 	 	   { BANG }
 	  | "true" 		   { TRUE }
 	  | "false"    	   { FALSE }
 	  | "if" 		   { IF }
@@ -36,16 +37,17 @@ let int_reg_exp = ['0'-'9']+
 	  | "skip" 	 	   { SKIP }
 	  | "while" 	   { WHILE }
 	  | "do"		   { DO }
-	  | eof            { EOF }  
+	  | "done"  	   { DONE }
 	  | int_reg_exp { INT (int_of_string (Lexing.lexeme lexbuf)) }
+	  | loc_reg_exp { LOC (Lexing.lexeme lexbuf) }
 	  | "(*" { comment lexbuf; token lexbuf }
 	  | newline { next_line lexbuf; token lexbuf } 
 	  | eof { EOF }
-	  | _ { Errors.complain ("Lexer : Illegal character " ^ (Char.escaped(Lexing.lexeme_char lexbuf 0)))
-}
+	  | _ { Errors.complain ("Lexer : Illegal character " ^ (Char.escaped(Lexing.lexeme_char lexbuf 0))) }
 
 and comment = parse
   | "*)" { () }
   | newline { next_line lexbuf; comment lexbuf }
   | "(*" {comment lexbuf; comment lexbuf }
+  | eof {Errors.complain "ERROR: Lexer. Comment not terminated. "}
   | _ { comment lexbuf } 
